@@ -1,13 +1,18 @@
-int echo=13, trig=12,mot_1a=4, mot_1b=5, mot_2a=6, mot_2b=7;
+int echo=12, trig=13, ena=3, enb=9, in1=7, in2=6, in3=5, in4=4;
+void forward();
+void halt();
+void right();
 void setup() {
   // put your setup code here, to run once:
 
   pinMode(echo,INPUT);//Sets up all the input and output pins respectively.
   pinMode(trig,OUTPUT);
-  pinMode(mot_1a,OUTPUT);
-  pinMode(mot_1b,OUTPUT);
-  pinMode(mot_2a,OUTPUT);
-  pinMode(mot_2b,OUTPUT);
+  pinMode(in1,OUTPUT);
+  pinMode(in2,OUTPUT);
+  pinMode(in3,OUTPUT);
+  pinMode(in4,OUTPUT);
+  pinMode(ena,OUTPUT);
+  pinMode(enb,OUTPUT);
   Serial.begin(9600);
 }
 
@@ -27,24 +32,43 @@ int distance()
   dist = duration * 0.034 / 2;
   return dist;
 }
-void loop() {
+void forward()
+{
+  digitalWrite(ena,HIGH);
+  digitalWrite(enb,HIGH);
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,HIGH);
+  digitalWrite(in3,LOW);
+  digitalWrite(in4,HIGH);
+}
+void right()
+{
+  digitalWrite(ena,HIGH);
+  digitalWrite(enb,LOW);
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,HIGH);
+  digitalWrite(in3,LOW);
+  digitalWrite(in4,LOW);
+}
+void halt()
+{
+  digitalWrite(ena,LOW);
+  digitalWrite(enb,LOW);
+}
+void loop() 
+{
   // put your main code here, to run repeatedly:
   int dist;
   dist=distance();
   Serial.println(dist);
-  if(dist>=20)
+  if(dist>=40)
   {
-    digitalWrite(mot_1a,HIGH);
-    digitalWrite(mot_1b,LOW);
-    digitalWrite(mot_2a,HIGH);
-    digitalWrite(mot_2b,LOW); 
+    forward(); 
   }
-  if(dist<20)
+  if(dist<40)
   {
-    digitalWrite(mot_1a,HIGH);
-    digitalWrite(mot_1b,LOW);
-    digitalWrite(mot_2a,LOW);
-    digitalWrite(mot_2b,LOW); 
+    halt(); 
+    right();
   }
   
 }
